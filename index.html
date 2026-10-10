@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Slayer's Reach — Co-op Prototype</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="game-shell">
+    <section class="game-area">
+      <canvas id="world" aria-label="Top-down co-op game world"></canvas>
+      <div class="toast" id="toast" aria-live="polite"></div>
+      <section class="item-tooltip hidden" id="item-tooltip" role="tooltip" aria-live="polite"></section>
+      <div class="boss-banner hidden" id="altar-status"></div>
+      <section class="altar-menu hidden" id="altar-menu" aria-labelledby="altar-menu-title">
+        <div class="altar-menu-heading"><div><span class="altar-kicker">ALTAR COURT</span><h2 id="altar-menu-title">Offer items</h2></div><button type="button" id="altar-menu-close" aria-label="Close altar menu">×</button></div>
+        <p class="altar-instructions">Choose how many items to offer from your selected hotbar stack.</p>
+        <div class="offering-item"><span id="offering-glyph">?</span><div><b id="offering-item-name">No item selected</b><small id="offering-item-worth">Select a stackable item with known worth</small></div></div>
+        <form id="altar-offer-form">
+          <label for="offering-amount">Amount to offer</label>
+          <input id="offering-amount" type="number" min="1" step="1" value="1" required>
+          <div class="altar-worth">Current offering worth <b id="altar-current-worth">0</b></div>
+          <p class="altar-tier-preview" id="altar-tier-preview">Uncommon summon: worth 1+</p>
+          <div class="altar-menu-actions"><button type="button" id="altar-cancel">Cancel</button><button type="submit" id="altar-offer-submit">Offer</button></div>
+        </form>
+      </section>
+      <section class="shop-menu hidden" id="shop-menu" aria-labelledby="shop-menu-title">
+        <div class="shop-menu-heading">
+          <div><span class="shop-kicker" id="shop-kicker">WESTERN GROVE</span><h2 id="shop-menu-title">Explorer's House</h2></div>
+          <button type="button" id="shop-menu-close" aria-label="Close Explorer's House">×</button>
+        </div>
+        <p class="shop-description" id="shop-description">Common items for coins and materials. Select a recipe to buy it.</p>
+        <div class="shop-recipes" id="shop-recipes"></div>
+      </section>
+      <section class="station-confirm hidden" id="station-confirm" role="dialog" aria-modal="true" aria-labelledby="station-confirm-title" aria-describedby="station-confirm-prompt">
+        <div class="station-confirm-heading">
+          <span class="shop-kicker">WESTERN GROVE STATION</span>
+          <button type="button" id="station-confirm-close" aria-label="Close confirmation">×</button>
+        </div>
+        <h2 id="station-confirm-title"></h2>
+        <p id="station-confirm-prompt"></p>
+        <div class="station-confirm-actions">
+          <button type="button" id="station-confirm-no">No</button>
+          <button type="button" id="station-confirm-yes">Yes, use station</button>
+        </div>
+      </section>
+      <section class="chest-opening hidden" id="chest-opening" role="status" aria-live="polite">
+        <b id="chest-opening-title">Opening Common Chest</b>
+        <div class="chest-opening-track"><i id="chest-opening-progress"></i></div>
+        <span id="chest-opening-time">20 seconds remaining</span>
+        <button type="button" id="chest-opening-cancel">Cancel</button>
+      </section>
+      <aside class="inventory-panel" id="inventory-panel">
+        <div class="profile">
+          <div class="portrait">✦</div>
+          <div><b id="profile-name">Slayer</b><small>LEVEL <span id="level">1</span></small></div>
+          <span class="rebirth">R 0</span>
+        </div>
+        <div class="inventory-heading"><span>BACKPACK</span><small>6 × 3</small></div>
+        <div class="inventory-grid" id="inventory-grid"></div>
+        <div class="coin-display"><span class="coin-symbol">●</span><span>Coins</span><b id="coins">0</b></div>
+      </aside>
+      <button class="backpack-button" id="inventory-toggle" type="button" aria-controls="inventory-panel" aria-expanded="true"><span>▦</span> Backpack · I</button>
+      <div class="server-card">
+        <div class="server-lifespan">Server Lifespan: <b id="server-lifespan">Local</b></div>
+        <div class="player-count">Slayers: <b id="player-count">1</b></div>
+        <ol id="players-list"><li id="self-entry">You <span>Level 1</span></li></ol>
+      </div>
+      <div class="chat" id="chat">
+        <div class="chat-log" id="chat-log"><div class="system-message">Welcome to Slayer's Reach. The wilds await.</div></div>
+        <form id="chat-form"><span>↵</span><input id="chat-input" maxlength="120" autocomplete="off" placeholder="Send a message…"><button type="submit" aria-label="Send chat">➤</button></form>
+      </div>
+      <div class="bottom-hud">
+        <div class="hotbar" id="hotbar"></div>
+        <div class="status-bars">
+          <div class="status-row health-row"><span>Health</span><b><i id="health-meter"></i></b><strong id="health">100 / 100</strong></div>
+          <div class="status-row speed-row"><span>Speed</span><b><i id="speed-meter"></i></b><strong id="speed">6 / 6</strong></div>
+          <div class="status-row hunger-row"><span>Hunger</span><b><i id="hunger-meter"></i></b><strong id="hunger">100 / 100</strong></div>
+          <div class="status-row xp-row"><span>Experience</span><b><i id="xp-meter"></i></b><strong id="experience">0 / 37</strong></div>
+        </div>
+      </div>
+      <div class="player-stats" aria-label="Player stats">
+        <div><span>Strike Strength</span><b id="strike-strength">1.0</b></div>
+        <div><span>Level</span><b id="bottom-level">1</b></div>
+        <div><span>Rebirths</span><b id="rebirths">0</b></div>
+        <div><span>Coins</span><b id="bottom-coins">0</b></div>
+      </div>
+      <div class="zone-label" id="zone-label">THE CROSSROADS</div>
+      <div class="connection"><span class="connection-dot" id="connection-dot"></span><span id="connection-label">Local prototype</span></div>
+    </section>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
