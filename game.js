@@ -203,6 +203,8 @@
     'wolf-fur': { name: 'Wolf Fur', glyph: '◉', kind: 'material', maxStack: 32, worth: 1, altarDroppable: true, rarity: 'Common' },
     bone: { name: 'Bone', glyph: '♧', kind: 'material', maxStack: 32, worth: 1, altarDroppable: true, rarity: 'Common' },
     copper: { name: 'Copper', glyph: '◆', kind: 'material', maxStack: 32, worth: 1, rarity: 'Common', description: 'Common material dropped by frogs.', altarDroppable: true },
+    'uncommon-chest': { name: 'Uncommon Chest', glyph: '▣', kind: 'chest', maxStack: 1, worth: 6, rarity: 'Uncommon', openTime: 45, description: 'An Uncommon chest that takes 45 seconds to open. Loot: 70% chance for 5–7 Gold Bar, 20% chance for Wooden Helmet, or 10% chance for Religious Stone. Listed boss drop rates are not specified.', altarDroppable: true },
+    'blood-staff': { name: 'Blood Staff', glyph: 'ϟ', kind: 'weapon', damage: 60, attackCooldown: 1, range: 250, maxStack: 32, worth: 2, rarity: 'Uncommon', isMelee: false, healChance: .25, description: 'An Uncommon ranged weapon that quickly fires red blood spheres. Base damage 60, 1000ms cooldown, and 60 base DPS. It has a 25% chance to heal the player for 25% of max health upon hitting an enemy. Listed sources are not available in this prototype.', altarDroppable: true },
   };
   let openingChest = null;
   let activeShopRecipes = explorerShopRecipes;
