@@ -1,4 +1,4 @@
-# Slayer's Reach — Co-op Prototype
+# Karmaslayers — Co-op Prototype
 
 A small, original-art browser prototype for testing the top-down co-op direction. The UI follows the supplied arrangement: world view across the screen, player list at the upper right, 6×3 backpack at the right, chat at lower left, and a 9-slot hotbar with health, speed, hunger, and experience bars at bottom center. It uses simple canvas-drawn placeholder visuals rather than the reference game's art.
 
